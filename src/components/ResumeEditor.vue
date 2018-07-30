@@ -1,5 +1,5 @@
 <template>
-	<div id="ResumeEditor">
+	<div id="resumeEditor">
 		this is ResumeEditor
 	</div>
 </template>

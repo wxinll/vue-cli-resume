@@ -1,17 +1,22 @@
 <template>
-  <div id="app">
-    <TopBar/>
-    <ResumeEditor/>
-    <ResumePreview/> 
+  <div id="app" class="page">
+    <header>
+      <TopBar/>      
+    </header>
+    <main>
+      <ResumeEditor/>
+      <ResumePreview/> 
+    </main>
   </div>
 </template>
 
 <script>
+import 'normalize.css/normalize.css'
+import './assets/reset.css'
+
 import TopBar from './components/TopBar'
 import ResumeEditor from './components/ResumeEditor'
 import ResumePreview from './components/ResumePreview'
-
-import './assets/reset.css'
 
 export default {
   name: 'App',
@@ -27,5 +32,25 @@ export default {
 </script>
 
 <style>
-  p{color: red;}
+  .page{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #EAEBEC;
+    min-width: 1024px;
+  }
+  .page>main{
+    flex-grow: 1;
+    margin: 16px 0;
+    display: flex;
+    justify-content: space-around;
+  }
+  #resumeEditor{
+    width: 35%;
+    background: #444;
+  }
+  #resumePreview{
+    width: 60%;
+    background: #777;
+  }
 </style>

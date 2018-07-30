@@ -9,7 +9,7 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/vue-cli-resume/dist',
     proxyTable: {},
 
     // Various Dev Server settings
