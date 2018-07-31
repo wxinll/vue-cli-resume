@@ -31,19 +31,19 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
   .page{
     display: flex;
     flex-direction: column;
     height: 100vh;
     background: #EAEBEC;
     min-width: 1024px;
-  }
-  .page>main{
-    flex-grow: 1;
-    margin: 16px 0;
-    display: flex;
-    justify-content: space-around;
+    >main{
+      flex-grow: 1;
+      margin: 16px 0;
+      display: flex;
+      justify-content: space-around;
+    }
   }
   #resumeEditor{
     width: 35%;
