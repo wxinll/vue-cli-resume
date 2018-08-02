@@ -7,6 +7,7 @@
       <ResumeEditor/>
       <Resume/> 
     </main>
+    <router-view @login="onLogin" @sign-up="onLogin"></router-view>
   </div>
 </template>
 
