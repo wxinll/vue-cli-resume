@@ -28,7 +28,6 @@
 
 <style scoped lang="scss">
 	#topbar{
-		color: green;
 		background:#ffffff;
 		box-shadow:0 1px 3px 0 rgba(0,0,0,0.25);
 		>.wrapper{
@@ -47,17 +46,31 @@
 		button{
 			width: 72px;
 			height: 32px;
-			border: none;
+			border: 1px solid #dbdbdb;
+			border-radius: 3px;
 			cursor: pointer;
-			font-size: 18px;
-			background: #ddd;
+			font-size: 1rem;
+			background: #fff;
 			color: #222;
 			&:hover{
-				box-shadow: 1px 1px 1px hsla(0, 0, 0, 0.50);
+				border-color: #b5b5b5;
+			}
+			&:active{
+				border-color: #4a4a4a;
+				box-shadow: inset 0 1px 2px hsla(0,0%,4%,.2);
 			}
 			&.primary{
-				background:#02af5f;
-				color: white;
+				background: #00d1b2;
+				color: #fff;
+				border-color: transparent;
+			}
+			&.primary:hover{
+				background: #00c4a7;
+			}
+			&.primary:active{
+				background-color: #00b89c;
+				border-color: transparent;
+				box-shadow: inset 0 1px 2px hsla(0,0%,4%,.2);
 			}
 		}
 

@@ -5,7 +5,7 @@
     </header>
     <main>
       <ResumeEditor/>
-      <ResumePreview/> 
+      <Resume/> 
     </main>
   </div>
 </template>
@@ -16,7 +16,7 @@ import './assets/reset.css'
 
 import TopBar from './components/TopBar'
 import ResumeEditor from './components/ResumeEditor'
-import ResumePreview from './components/ResumePreview'
+import Resume from './components/Resume'
 
 export default {
   name: 'App',
@@ -26,31 +26,35 @@ export default {
     }
   },
   components: {
-    TopBar,ResumeEditor,ResumePreview
+    TopBar,ResumeEditor,Resume
   }
 }
 </script>
 
 <style lang="scss">
   .page{
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
     background: #EAEBEC;
-    min-width: 1024px;
+    >header{
+      position: fixed;
+      width: 100%;
+    }
     >main{
-      flex-grow: 1;
-      margin: 16px 0;
+      padding-top: 80px;
       display: flex;
       justify-content: space-around;
     }
   }
   #resumeEditor{
-    width: 35%;
+    width: 15%;
     background: #444;
   }
-  #resumePreview{
-    width: 60%;
-    background: #777;
+  #resume{
+    width: 80%;
+    background: #f5f5f5;
+  }
+  @media screen and (max-width: 600px){
+    #resumeEditor{
+      display: none;
+    }    
   }
 </style>

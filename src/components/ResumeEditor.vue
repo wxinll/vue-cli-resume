@@ -1,7 +1,7 @@
 <template>
-	<div id="resumeEditor">
+	<aside id="resumeEditor">
 		this is ResumeEditor
-	</div>
+	</aside>
 </template>
 
 <script>
