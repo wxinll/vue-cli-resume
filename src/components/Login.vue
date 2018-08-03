@@ -57,7 +57,7 @@
 	.login {
 		width: 35%;
 		height: 15rem;
-		position: absolute;
+		position: fixed;
 		margin: auto;
 		left: 0;
 		right: 0;

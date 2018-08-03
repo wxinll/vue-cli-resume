@@ -3,7 +3,7 @@
 		<div class="wrapper">
 			<span class="logo">WXin</span>
 			<div class="actions">
-				<button class="primary">
+				<button class="primary" @click="$router.push('/login')">
 					登录
 				</button>
 				<button>

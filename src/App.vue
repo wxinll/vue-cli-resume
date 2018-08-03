@@ -59,6 +59,7 @@ export default {
   #resume{
     background: #f5f5f5;
     margin-left: 180px;
+    max-width: 1280px;
   }
   @media screen and (max-width: 600px){
     #resumeEditor{
