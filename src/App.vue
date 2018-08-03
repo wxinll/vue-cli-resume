@@ -14,6 +14,7 @@
 <script>
 import 'normalize.css/normalize.css'
 import './assets/reset.css'
+import './assets/base.scss'
 
 import TopBar from './components/TopBar'
 import ResumeEditor from './components/ResumeEditor'
@@ -28,7 +29,12 @@ export default {
   },
   components: {
     TopBar,ResumeEditor,Resume
-  }
+  },
+  methods: {
+    onLogin() {
+
+    },
+  },
 }
 </script>
 
@@ -41,21 +47,25 @@ export default {
     }
     >main{
       padding-top: 80px;
-      display: flex;
-      justify-content: space-around;
     }
   }
   #resumeEditor{
-    width: 15%;
     background: #444;
+    position: fixed;
+    width: 120px;
+    height: 60vh;
+    margin-left: 5px;
   }
   #resume{
-    width: 80%;
     background: #f5f5f5;
+    margin-left: 180px;
   }
   @media screen and (max-width: 600px){
     #resumeEditor{
       display: none;
+    }
+    #resume{
+      margin-left: 0px;
     }    
   }
 </style>

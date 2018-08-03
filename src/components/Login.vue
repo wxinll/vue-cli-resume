@@ -1,8 +1,8 @@
 <template>
-	<div class="login" v-on:submit="onLogin">
-		<div class="row,title">
+	<div class="login box" v-on:submit="onLogin">
+		<div class="title">
 			<label>用户登录</label>
-			<a href="#" v-on:click="$router.push('/')">返回</a>
+			<button class="button link" @click="$router.push('/')">返回</button>
 		</div>
 		<form>
 			<div class="row">
@@ -14,9 +14,9 @@
 				<input type="text" id="pwd-div" v-model="login.pwd">
 			</div>
 			<div class="row">
-				<button type="submit">登陆</button>
+				<button class="button success" type="submit">登陆</button>
+				<button class="button link" @click="$router.push('signup')">注册</button>
 			</div>
-			<a href="#" v-on:click="$router.push('signup')">注册</a>
 		</form>
 	</div>
 </template>
@@ -53,6 +53,28 @@
 	}
 </script>
 
-<style>
-	
+<style scoped lang="scss">
+	.login {
+		width: 35%;
+		height: 15rem;
+		position: absolute;
+		margin: auto;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		.row{
+			height: 2.5em;
+		}
+		>.title{
+			margin-bottom: .75rem;
+			label{
+				font-size: 1.5em;
+			}
+		}
+	}
+	.button{
+		height: 2.2em;
+		padding: 0 .75em;
+	}
 </style>

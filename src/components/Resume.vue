@@ -90,7 +90,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 	#resume{
 		color: #4a4a4a;
 		padding: 20px;
@@ -127,17 +127,6 @@ export default {
 				width: 47%;
 			}
 		}
-	}
-	.box {
-		background-color: #fff;
-		border-radius: 5px;
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
-		border-bottom-right-radius: 5px;
-		border-bottom-left-radius: 5px;
-		box-shadow: 0 2px 3px hsla(0,0%,4%,.1), 0 0 0 1px hsla(0,0%,4%,.1);
-		display: block;
-		padding: 1.25rem;
 	}
 	@media screen and (max-width: 600px){
 		.skills{
