@@ -1,5 +1,6 @@
 <template>
 	<div id="resume">
+		{{currentUser}}
 		<section class="profile">
 			<h1 class="name">爱迪生</h1>
 			<p class="description">
@@ -49,6 +50,9 @@
 						<p class="row">-leanCloud 实现用户信息管理</p>
 					</p>
 				</li>
+				<li class="box">
+					<editable-span></editable-span>
+				</li>
 			</ul>
 
 		</section>
@@ -61,6 +65,7 @@
 					</header>
 					<p class="description">
 						熟悉原型链，继承，Promise，异步
+						一一一一一一一一一一一一一一一一
 					</p>
 				</li>
 				<li class="box">
@@ -78,6 +83,10 @@
 					<p class="description">
 						熟悉原型链，继承，Promise，异步
 					</p>
+				</li>
+				<li class="box">
+					<editable-span class="header"></editable-span>
+					<editable-span class="description"></editable-span>
 				</li>
 			</ul>
 		</section>
@@ -85,8 +94,38 @@
 </template>
 
 <script>
+import EditableSpan from './EditableSpan'
+
 export default {
 	name: 'Resume',
+	components: {
+		EditableSpan
+	},
+	props: ['currentUser','edit','resume'],
+	methods: {
+		addSkill() {
+			let obj = {
+				name: '技能名称',
+				description: '技能描述'
+			}
+			this.resume.skills.push(obj)
+		},
+		delSkill(index) {
+			this.resume.skills.splice(index,1)
+		},
+		addProject() {
+			let obj = {
+				name: '项目名称',
+				link: '链接',
+				keywords: '关键词',
+				description: '详细描述',
+			}
+			this.resume.projects.push(obj)
+		},
+		delProject(index) {
+			this.resume.projects.splice(index, 1)
+		},		
+	},	
 }
 </script>
 
@@ -136,7 +175,7 @@ export default {
 				>li{
 					width: 100%;
 				}
-			}			
+			}		
 		}
 	}
 </style>

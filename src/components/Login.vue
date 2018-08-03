@@ -22,6 +22,7 @@
 </template>
 
 <script>
+	import AV from '../lib/leancloud'
 	export default {
 		name: 'Login',
 		data() {

@@ -6,7 +6,7 @@
 				<button class="primary" @click="$router.push('/login')">
 					登录
 				</button>
-				<button>
+				<button @click="$emit('click-log-out')">
 					登出
 				</button>
 				<button class="primary">

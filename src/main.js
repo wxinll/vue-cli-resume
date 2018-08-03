@@ -6,6 +6,10 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+let eventHub = new Vue()
+
+Vue.prototype.$eventHub = eventHub
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -13,3 +17,6 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+// let eventHub = new Vue()
+// Vue.prototype.$eventHub = eventHub
