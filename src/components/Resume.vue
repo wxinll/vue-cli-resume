@@ -22,12 +22,26 @@
 						<editable-span :value="project.name" @edit="$emit('edit-span',$event,'projects','name',index)"></editable-span>
 					</div>
 					<div class="row" v-for="(item,index2) in project.description">
-						<editable-span :value="item" @edit="$emit('edit-span',$event,'projects','description',index,index2)"></editable-span>
-						<span @click="delRow(index,index2)">xxxxxxxxxxxx</span>
+						<editable-span :value="item" @edit="$emit('edit-span',$event,'projects','description',index,index2)" @input-change="onInputChange"></editable-span>
+						<span class="del" v-show="!inputStatus" @click="delRow(index,index2)">
+							<svg class="icon" aria-hidden="true">
+						 		<use xlink:href="#icon-minus-circle"></use>
+							</svg>
+						</span>
 					</div>
-					<span @click="delProject(index)">xxxxxxxxx</span>
+					<span class="del" @click="delProject(index)">
+						<svg class="icon" aria-hidden="true">
+						 		<use xlink:href="#icon-minus-circle"></use>
+						</svg>
+					</span>
 				</li>
-				<li class="box" @click="addProject">++++++++++++</li>
+				<li class="box add" @click="addProject">
+					<div class="row">
+						<svg class="icon" aria-hidden="true">
+					 		<use xlink:href="#icon-add"></use>
+						</svg>
+					</div>
+				</li>
 			</ul>
 
 		</section>
@@ -41,9 +55,17 @@
 					<div class="row">
 						<editable-span class="description" :value="skill.description" @edit="$emit('edit-span',$event,'skills','description',index)"></editable-span>
 					</div>
-					<span @click="delSkill(index)">xxxxxxxxxxxxx</span>
+					<span class="del" @click="delSkill(index)">
+						<svg class="icon" aria-hidden="true">
+						 		<use xlink:href="#icon-minus-circle"></use>
+						</svg>
+					</span>
 				</li>
-				<li class="box" @click="addSkill">+++++++++++++</li>
+				<li class="box add" @click="addSkill">
+					<svg class="icon" aria-hidden="true">
+					    <use xlink:href="#icon-add"></use>
+					</svg>					
+				</li>
 			</ul>
 		</section>
 	</div>
@@ -51,6 +73,7 @@
 
 <script>
 import EditableSpan from './EditableSpan'
+import '../lib/icon.js'
 
 export default {
 	name: 'Resume',
@@ -58,7 +81,15 @@ export default {
 		EditableSpan
 	},
 	props: ['currentUser','edit','resume'],
+	data(){
+		return {
+			inputStatus: false
+		}
+	},
 	methods: {
+		onInputChange($event) {
+			this.inputStatus = $event
+		},
 		addSkill() {
 			let obj = {
 				name: '技能名称',
@@ -89,6 +120,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+    .icon {
+       width: 1em; height: 1em;
+       vertical-align: -0.15em;
+       fill: currentColor;
+       overflow: hidden;
+    }
 	#resume{
 		color: #4a4a4a;
 		padding: 20px;
@@ -112,13 +149,13 @@ export default {
 	}
 	.projects{
 		>ul>li{
-			margin-bottom: .75rem;
 			.title{
 				font-size: 1.3rem;
 				margin-bottom: .75rem;
 			}
-			.row{
-				padding: .4em 0;
+			&.add svg{
+				width: 2.5em;
+				height: 2.5em;
 			}
 		}
 	}
@@ -128,13 +165,34 @@ export default {
 			flex-wrap: wrap;
 			justify-content: space-between;
 			>li{
-				margin-bottom: .75rem;
 				width: 47%;
-				.row{
-					padding: .4em 0;
-				}
+			&.add svg{
+				width: 2.5em;
+				height: 2.5em;
+			}	
 			}
 		}
+	}
+	ul>li{
+		position: relative;
+		margin-bottom: .75rem;
+		.del{
+			position: absolute;
+			right: 0;
+			top: 0;
+			svg{
+				fill: red;
+			}
+		}	
+		.row{
+			position: relative;
+			padding: .4em 0;
+			.del{
+				svg{
+					
+				}
+			}
+		}			
 	}
 	@media screen and (max-width: 600px){
 		.skills{

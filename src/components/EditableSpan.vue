@@ -16,7 +16,9 @@
     },
     methods: {
       xxx(e){
+
         this.editing = !this.editing
+
         let el = e.currentTarget.nextElementSibling
         if(this.editing === true){
           setTimeout(()=>{
@@ -24,6 +26,8 @@
             el.focus()
           },0)
         }
+
+        this.$emit('input-change',this.editing)
       },
     },
 
