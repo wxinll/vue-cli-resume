@@ -9,7 +9,7 @@
 				<button @click="$emit('click-log-out')">
 					登出
 				</button>
-				<button class="primary">
+				<button class="primary" @click="$emit('save-data')">
 					保存
 				</button>
 				<button>

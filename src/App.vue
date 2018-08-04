@@ -1,11 +1,11 @@
 <template>
   <div id="app" class="page">
     <header>
-      <top-bar @click-log-out="onLogOut"></top-bar>     
+      <top-bar @click-log-out="onLogOut" @save-data="saveResume"></top-bar>     
     </header>
     <main>
       <resume-editor></resume-editor>
-      <resume :current-user="currentUser" :edit="edit" :resume="resume" @onEdit="$emit('onEdit',$event)" @click-preview="edit = !edit"></resume>
+      <resume :current-user="currentUser" :edit="edit" :resume="resume" @edit-span="onEditSpan" @click-preview="edit = !edit"></resume>
     </main>
     <router-view @login="onLogin" @sign-up="onLogin"></router-view>
   </div>
@@ -38,7 +38,6 @@ function initData(){
         age: '年龄：',
         email: '邮箱：',
         phone: '手机：',
-
         skills: [{
           name: '技能名称',
           description: '技能描述'
@@ -57,7 +56,7 @@ function initData(){
           name: '项目名称',
           link: 'XXX.com',
           keywords: '关键词',
-          description: '详细描述',
+          description: ['1111','2222','3333'],
         }, ],
       },
       share: {
@@ -77,7 +76,8 @@ export default {
   },
   created: function() {
     this.getCurrent()
-    this.$eventHub.$on('edit',this.onEdit)
+    this.$on('editSpan',this.onEditSpan)
+    // this.$eventHub.$on('editSpan',this.onEditSpan)
   },
   watch: {
     'currentUser.id': function (newvalue,oldvalue){
@@ -92,18 +92,15 @@ export default {
     return initData()
   },
   methods: {
-    onEdit(key, value) {
-      let regex = /\[(\d)\]/g
-      key = key.replace(regex, (match, number) => `.${number}`)
-      // key = skills.0.name
-      keys = key.split('.')
-      let result = this.resume
-      for (let i = 0; i < keys.length; i++) {
-        if (i === keys.length - 1) {
-          result[keys[i]] = value
-        } else {
-          result = result[keys[i]]
-        }
+    onEditSpan(value,item,name,index,index2) {
+      // skills name index,value
+      // projects description,index,value
+      let array = this.resume[item] //skills projects
+      let result = array[index][name] // skill[name] projects
+      if(index2 != undefined){
+        result.splice(index2,1,value) //数组不能直接赋值
+      }else{
+        this.resume[item][index][name] = value
       }
     },
     onClickSave() {

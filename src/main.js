@@ -11,12 +11,9 @@ let eventHub = new Vue()
 Vue.prototype.$eventHub = eventHub
 
 /* eslint-disable no-new */
-new Vue({
+window.kkkk = new Vue({
   el: '#app',
   router,
   components: { App },
   template: '<App/>'
 })
-
-// let eventHub = new Vue()
-// Vue.prototype.$eventHub = eventHub

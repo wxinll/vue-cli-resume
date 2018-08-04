@@ -17,77 +17,33 @@
 		<section class="projects">
 			<h2>项目Demo</h2>
 			<ul>
-				<li class="box">
-					<header>
-						网易云音乐
-					</header>
-					<p class="description">
-						<p class="row">移动端播放页面，使用原生JS，jQuery，CSS3实现</p>
-						<p class="row">后台管理页面，使用原生JS, 结合七牛云，leanCloud，实现歌曲上传管理</p>
-						<p class="row">-七牛云 实现内容存储</p>
-						<p class="row">-leanCloud 实现用户信息管理</p>
-					</p>
+				<li class="box" v-for="(project,index) in resume.projects">
+					<div class="row title">
+						<editable-span :value="project.name" @edit="$emit('edit-span',$event,'projects','name',index)"></editable-span>
+					</div>
+					<div class="row" v-for="(item,index2) in project.description">
+						<editable-span :value="item" @edit="$emit('edit-span',$event,'projects','description',index,index2)"></editable-span>
+						<span @click="delRow(index,index2)">xxxxxxxxxxxx</span>
+					</div>
+					<span @click="delProject(index)">xxxxxxxxx</span>
 				</li>
-				<li class="box">
-					<header>
-						网易云音乐
-					</header>
-					<p class="description">
-						<p class="row">移动端播放页面，使用原生JS，jQuery，CSS3实现</p>
-						<p class="row">后台管理页面，使用原生JS, 结合七牛云，leanCloud，实现歌曲上传管理</p>
-						<p class="row">-七牛云 实现内容存储</p>
-						<p class="row">-leanCloud 实现用户信息管理</p>
-					</p>
-				</li>
-				<li class="box">
-					<header>
-						网易云音乐
-					</header>
-					<p class="description">
-						<p class="row">移动端播放页面，使用原生JS，jQuery，CSS3实现</p>
-						<p class="row">后台管理页面，使用原生JS, 结合七牛云，leanCloud，实现歌曲上传管理</p>
-						<p class="row">-七牛云 实现内容存储</p>
-						<p class="row">-leanCloud 实现用户信息管理</p>
-					</p>
-				</li>
-				<li class="box">
-					<editable-span></editable-span>
-				</li>
+				<li class="box" @click="addProject">++++++++++++</li>
 			</ul>
 
 		</section>
 		<section class="skills">
 			<h2>技能</h2>
 			<ul>
-				<li class="box">
-					<header>
-						JavaScript
-					</header>
-					<p class="description">
-						熟悉原型链，继承，Promise，异步
-						一一一一一一一一一一一一一一一一
-					</p>
+				<li class="box" v-for="(skill,index) in resume.skills">
+					<div class="row">
+						<editable-span class="header" :value="skill.name" @edit="$emit('edit-span',$event,'skills','name',index)"></editable-span>
+					</div>
+					<div class="row">
+						<editable-span class="description" :value="skill.description" @edit="$emit('edit-span',$event,'skills','description',index)"></editable-span>
+					</div>
+					<span @click="delSkill(index)">xxxxxxxxxxxxx</span>
 				</li>
-				<li class="box">
-					<header>
-						JavaScript
-					</header>
-					<p class="description">
-						熟悉原型链，继承，Promise，异步
-					</p>
-				</li>
-				<li class="box">
-					<header>
-						JavaScript
-					</header>
-					<p class="description">
-						熟悉原型链，继承，Promise，异步
-					</p>
-				</li>
-				<li class="box">
-					<editable-span class="header"></editable-span>
-					<editable-span class="description"></editable-span>
-				</li>
+				<li class="box" @click="addSkill">+++++++++++++</li>
 			</ul>
 		</section>
 	</div>
@@ -118,13 +74,16 @@ export default {
 				name: '项目名称',
 				link: '链接',
 				keywords: '关键词',
-				description: '详细描述',
+				description: ['111','222','333','4444'],
 			}
 			this.resume.projects.push(obj)
 		},
 		delProject(index) {
 			this.resume.projects.splice(index, 1)
-		},		
+		},
+		delRow(index,index2) {
+			this.resume.projects[index].description.splice(index2,1)
+		}	
 	},	
 }
 </script>
@@ -154,6 +113,13 @@ export default {
 	.projects{
 		>ul>li{
 			margin-bottom: .75rem;
+			.title{
+				font-size: 1.3rem;
+				margin-bottom: .75rem;
+			}
+			.row{
+				padding: .4em 0;
+			}
 		}
 	}
 	.skills{
@@ -164,6 +130,9 @@ export default {
 			>li{
 				margin-bottom: .75rem;
 				width: 47%;
+				.row{
+					padding: .4em 0;
+				}
 			}
 		}
 	}
