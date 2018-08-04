@@ -1,17 +1,28 @@
 <template>
 	<aside id="resumeEditor">
-		this is ResumeEditor
+		<button class="button" @click="share">
+			分享
+		</button>
 	</aside>
 </template>
 
 <script>
-export default {
-	name: 'ResumeEditor',
-}
+	export default {
+		name: 'ResumeEditor',
+		methods: {
+			share(){
+				this.$emit('share-link')
+				this.$router.push('/sharePage')
+			}
+		}
+	}
 </script>
 
-<style scoped>
-	#ResumeEditor{
-		color: red;
+<style scoped lang="scss">
+	#resumeEditor{
+		button{
+			width: 4em;
+			height: 2.25em;
+		}
 	}
 </style>

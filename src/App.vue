@@ -4,10 +4,10 @@
       <top-bar @click-log-out="onLogOut" @save-data="saveResume"></top-bar>     
     </header>
     <main>
-      <resume-editor></resume-editor>
+      <resume-editor @share-link="createShareLink"></resume-editor>
       <resume :current-user="currentUser" :edit="edit" :resume="resume" @edit-span="onEditSpan" @click-preview="edit = !edit"></resume>
     </main>
-    <router-view @login="onLogin" @sign-up="onLogin"></router-view>
+    <router-view @login="onLogin" @sign-up="onLogin" :share-link="share.link"></router-view>
   </div>
 </template>
 
@@ -40,17 +40,17 @@ function initData(){
         phone: '手机：',
         skills: [{
           name: '技能名称',
-          description: '技能描述'
-        }, {
+          description: ['技能描述','技能描述','技能描述']
+        },{
           name: '技能名称',
-          description: '技能描述'
-        }, {
+          description: ['技能描述','技能描述','技能描述']
+        },{
           name: '技能名称',
-          description: '技能描述'
-        }, {
+          description: ['技能描述','技能描述','技能描述']
+        },{
           name: '技能名称',
-          description: '技能描述'
-        }, ],
+          description: ['技能描述','技能描述','技能描述']
+        },],
 
         projects: [{
           name: '项目名称',
@@ -78,6 +78,16 @@ export default {
     this.getCurrent()
     this.$on('editSpan',this.onEditSpan)
     // this.$eventHub.$on('editSpan',this.onEditSpan)
+    //如果是用带user_id的链接进入，只获取resume数据，并渲染页面
+    let search = location.search
+    let regex = /user_id=([^&]+)/
+    let matches = search.match(regex)
+    if(matches){
+      let userId = matches[1]
+      this.edit = false
+      console.log(userId)
+      this.getResume(userId)
+    }
   },
   watch: {
     'currentUser.id': function (newvalue,oldvalue){
@@ -93,14 +103,18 @@ export default {
   },
   methods: {
     onEditSpan(value,item,name,index,index2) {
-      // skills name index,value
-      // projects description,index,value
-      let array = this.resume[item] //skills projects
-      let result = array[index][name] // skill[name] projects
-      if(index2 != undefined){
-        result.splice(index2,1,value) //数组不能直接赋值
+      if(index == undefined){
+        this.resume[item] = value
       }else{
-        this.resume[item][index][name] = value
+        // skills name index,value
+        // projects description,index,value
+        let array = this.resume[item] //skills projects
+        let result = array[index][name] // skill[name] projects
+        if(index2 != undefined){
+          result.splice(index2,1,value) //数组不能直接赋值
+        }else{
+          array[index][name] = value
+        }
       }
     },
     onClickSave() {
@@ -152,6 +166,7 @@ export default {
     },
   },
 }
+
 </script>
 
 <style lang="scss">
@@ -160,29 +175,34 @@ export default {
     >header{
       position: fixed;
       width: 100%;
+      z-index: 1;
     }
     >main{
       padding-top: 80px;
+      #resumeEditor{
+        position: fixed;
+        width: 15%;
+        margin-left: 5px;
+      }
+      #resume{
+        margin-left: 15%;
+      }    
     }
-  }
-  #resumeEditor{
-    background: #444;
-    position: fixed;
-    width: 120px;
-    height: 60vh;
-    margin-left: 5px;
-  }
-  #resume{
-    background: #f5f5f5;
-    margin-left: 180px;
-    max-width: 1280px;
   }
   @media screen and (max-width: 600px){
     #resumeEditor{
       display: none;
     }
     #resume{
-      margin-left: 0px;
-    }    
+      margin-left: 0px !important;
+    }  
+  }
+  #resumeEditor{
+    background: #444;
+    height: 60vh;
+  }
+  #resume{
+    background: #f5f5f5;
+    max-width: 1280px;
   }
 </style>

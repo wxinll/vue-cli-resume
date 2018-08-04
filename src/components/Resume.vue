@@ -2,33 +2,42 @@
 	<div id="resume">
 		{{currentUser}}
 		<section class="profile">
-			<h1 class="name">爱迪生</h1>
+			<h1 class="name"><editable-span :value="resume.name" @edit="$emit('edit-span',$event,'name')"></editable-span></h1>
 			<p class="description">
 				目标职位：
-				<span>前端工程师</span>
+				<editable-span :value="resume.jobTitle" @edit="$emit('edit-span',$event,'jobTitle')"></editable-span>
 			</p>
 			<div class="selfInfo">
-				<span>男</span>
-				<span>年龄：23</span>
-				<span>邮箱：XXX@gmail.com</span>
-				<span>手机：1861234567</span>
+				<editable-span :value="resume.gender" @edit="$emit('edit-span',$event,'gender')"></editable-span>
+				<editable-span :value="resume.age" @edit="$emit('edit-span',$event,'age')"></editable-span>
+				<editable-span :value="resume.email" @edit="$emit('edit-span',$event,'email')"></editable-span>
+				<editable-span :value="resume.phone" @edit="$emit('edit-span',$event,'phone')"></editable-span>
 			</div>
 		</section>
 		<section class="projects">
 			<h2>项目Demo</h2>
 			<ul>
 				<li class="box" v-for="(project,index) in resume.projects">
-					<div class="row title">
+					<h3>
 						<editable-span :value="project.name" @edit="$emit('edit-span',$event,'projects','name',index)"></editable-span>
-					</div>
-					<div class="row" v-for="(item,index2) in project.description">
-						<editable-span :value="item" @edit="$emit('edit-span',$event,'projects','description',index,index2)" @input-change="onInputChange"></editable-span>
-						<span class="del" v-show="!inputStatus" @click="delRow(index,index2)">
-							<svg class="icon" aria-hidden="true">
-						 		<use xlink:href="#icon-minus-circle"></use>
-							</svg>
-						</span>
-					</div>
+					</h3>
+					<ul class="content">
+						<li v-for="(item,index2) in project.description">
+							<editable-span :value="item" @edit="$emit('edit-span',$event,'projects','description',index,index2)" @input-change="onInputChange"></editable-span>
+							<span class="del" v-show="!inputStatus" @click="delRow('projects',index,index2)">
+								<svg class="icon" aria-hidden="true">
+							 		<use xlink:href="#icon-minus-circle"></use>
+								</svg>
+							</span>
+						</li>
+						<li>
+							<span class="add" @click="addRow('projects',index)">
+								<svg class="icon" aria-hidden="true">
+							 		<use xlink:href="#icon-plus-circle"></use>
+								</svg>
+							</span>
+						</li>
+					</ul>
 					<span class="del" @click="delProject(index)">
 						<svg class="icon" aria-hidden="true">
 						 		<use xlink:href="#icon-minus-circle"></use>
@@ -38,7 +47,7 @@
 				<li class="box add" @click="addProject">
 					<div class="row">
 						<svg class="icon" aria-hidden="true">
-					 		<use xlink:href="#icon-add"></use>
+					 		<use xlink:href="#icon-plus-circle"></use>
 						</svg>
 					</div>
 				</li>
@@ -49,21 +58,36 @@
 			<h2>技能</h2>
 			<ul>
 				<li class="box" v-for="(skill,index) in resume.skills">
-					<div class="row">
+					<h3>
 						<editable-span class="header" :value="skill.name" @edit="$emit('edit-span',$event,'skills','name',index)"></editable-span>
-					</div>
-					<div class="row">
-						<editable-span class="description" :value="skill.description" @edit="$emit('edit-span',$event,'skills','description',index)"></editable-span>
-					</div>
+					</h3>
+					<ul class="content">
+						<li v-for="(item, index2) in skill.description">
+							<editable-span :value="item" @edit="$emit('edit-span',$event,'skills','description',index,index2)" @input-change="onInputChange"></editable-span>
+							<span class="del" @click="delRow('skills',index,index2)">
+								<svg class="icon" aria-hidden="true">
+								 		<use xlink:href="#icon-minus-circle"></use>
+								</svg>						
+							</span>
+						</li>
+						<li>
+							<span class="add" @click="addRow('skills',index)">
+								<svg class="icon" aria-hidden="true">
+							 		<use xlink:href="#icon-plus-circle"></use>
+								</svg>
+							</span>
+						</li>
+					</ul>
 					<span class="del" @click="delSkill(index)">
 						<svg class="icon" aria-hidden="true">
 						 		<use xlink:href="#icon-minus-circle"></use>
 						</svg>
 					</span>
+
 				</li>
 				<li class="box add" @click="addSkill">
 					<svg class="icon" aria-hidden="true">
-					    <use xlink:href="#icon-add"></use>
+					    <use xlink:href="#icon-plus-circle"></use>
 					</svg>					
 				</li>
 			</ul>
@@ -112,9 +136,12 @@ export default {
 		delProject(index) {
 			this.resume.projects.splice(index, 1)
 		},
-		delRow(index,index2) {
-			this.resume.projects[index].description.splice(index2,1)
-		}	
+		addRow(name,index){
+			this.resume[name][index].description.push('1111')
+		},
+		delRow(name,index,index2) {
+			this.resume[name][index].description.splice(index2,1)
+		}
 	},	
 }
 </script>
@@ -134,11 +161,24 @@ export default {
 			>h2{
 				margin-bottom: 1.1rem;
 			}
+			>ul>li{
+				position: relative;
+				margin-bottom: .75rem;
+				>h3{
+					margin-bottom: 1.1rem;
+				}
+				>ul>li{
+					position: relative;	
+					padding:.35em 0;
+				}
+			}
 		}
 	}
 	.profile{
 		font-size: 1.2em;
-		h1{font-size: 1.5em;}
+		h1{
+			font-size: 1.5em;
+		}
 		h1, p.description{
 			text-align: center;
 			margin-bottom: 1.3em;
@@ -149,10 +189,6 @@ export default {
 	}
 	.projects{
 		>ul>li{
-			.title{
-				font-size: 1.3rem;
-				margin-bottom: .75rem;
-			}
 			&.add svg{
 				width: 2.5em;
 				height: 2.5em;
@@ -163,36 +199,33 @@ export default {
 		>ul{
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: space-between;
+			justify-content: space-around;
 			>li{
 				width: 47%;
-			&.add svg{
-				width: 2.5em;
-				height: 2.5em;
-			}	
+				&.add svg{
+					width: 2.5em;
+					height: 2.5em;
+				}	
 			}
 		}
 	}
-	ul>li{
-		position: relative;
-		margin-bottom: .75rem;
-		.del{
-			position: absolute;
-			right: 0;
-			top: 0;
-			svg{
+	.box>.del>svg.icon{
+		position: absolute;
+		right: 5%;
+		top: 5%;
+		fill: red;
+		width: 1.75em;
+		height: 1.75em;
+	}
+	.box>.content{
+			svg.icon{
+				position: absolute;
+				right: 0;
+				top: 0;
 				fill: red;
+				width: 1em;
+				height: 1em;
 			}
-		}	
-		.row{
-			position: relative;
-			padding: .4em 0;
-			.del{
-				svg{
-					
-				}
-			}
-		}			
 	}
 	@media screen and (max-width: 600px){
 		.skills{
@@ -205,4 +238,16 @@ export default {
 			}		
 		}
 	}
+	@media screen and (min-width: 960px){
+	    .projects{
+	    	>ul{
+	    		display: flex;
+	    		flex-wrap: wrap;
+	    		justify-content: center;
+				>li{
+					width: 80%;
+				}
+	    	}
+	    }
+  	}	
 </style>

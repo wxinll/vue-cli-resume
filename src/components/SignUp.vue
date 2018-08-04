@@ -1,21 +1,21 @@
 <template>
-	<div class="login box" v-on:submit="onLogin">
+	<div class="login box" v-on:submit="onSignUp">
 		<div class="title">
-			<label>用户登录</label>
+			<label>注册</label>
 			<button class="button link" @click="$router.push('/')">返回</button>
 		</div>
 		<form>
 			<div class="row">
 				<label for="account-div">账户</label>
-				<input type="text" id="account-div" v-model="login.account">
+				<input type="text" id="account-div" v-model="signUp.account">
 			</div>
 			<div class="row">
 				<label for="pwd-div">密码</label>
-				<input type="text" id="pwd-div" v-model="login.pwd">
+				<input type="text" id="pwd-div" v-model="signUp.pwd">
 			</div>
 			<div class="row">
-				<button class="button success" type="submit">登陆</button>
-				<button class="button link" type="button" @click="$router.push('signup')">注册</button>
+				<button class="button success" type="submit">注册</button>
+				<button class="button link" type="button" @click="$router.push('/login')">登录</button>
 			</div>
 		</form>
 	</div>
@@ -24,34 +24,39 @@
 <script>
 	import AV from '../lib/leancloud'
 	export default {
-		name: 'Login',
+		name: 'SignUp',
 		data() {
 			return {
-				login: {
+				signUp: {
 					account: '',
 					pwd: '',
 				},
 			}
 		},
 		methods: {
-			onLogin(e) {
+			onSignUp(e) {
 				e.preventDefault()
-				console.log('xxxxxxx')
-				let {account,pwd} = this.login
-				AV.User.logIn(account, pwd).then((User) => {
-					this.$emit('login', User)
+				let {account,pwd} = this.signUp
+				let userSign = new AV.User()
+				userSign.setUsername(account)
+				userSign.setPassword(pwd)
+				userSign.setEmail(account)
+				userSign.signUp().then((User) =>{
+					alert('signUp success')
+					console.log(User)
+					this.$emit('sign-up', User)
 				}, function(error) {
 					switch (error.code) {
-						case 219:
-							alert('登录失败次数超过限制，请稍候再试，或者通过忘记密码重设密码')
-							// case 2:
-							//   console.log('x 等于2')
+						case 203:
+							alert('邮箱已被占用')
+						case 210:
+							console.log('账户密码不匹配')
 							// default:
 							//   console.log('x 等于其他值')
 					}
 				})
 			},
-		},		
+		},	
 	}
 </script>
 
