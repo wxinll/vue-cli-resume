@@ -1,10 +1,10 @@
 <template>
   <div id="app" class="page">
     <header>
-      <top-bar @click-log-out="onLogOut" @save-data="saveResume"></top-bar>     
+      <top-bar :login="login" :edit="edit" @click-log-out="onLogOut" @save-data="saveResume" @on-preview="edit=false" @exit-preview="edit=true"></top-bar>     
     </header>
     <main>
-      <resume-editor @share-link="createShareLink"></resume-editor>
+      <resume-editor v-show="edit&&login" @share-link="createShareLink"></resume-editor>
       <resume :current-user="currentUser" :edit="edit" :resume="resume" @edit-span="onEditSpan" @click-preview="edit = !edit"></resume>
     </main>
     <router-view @login="onLogin" @sign-up="onLogin" :share-link="share.link"></router-view>
@@ -64,8 +64,7 @@ function initData(){
         status: false,
       },
       edit: true,
-      skinPickerVisible: false,
-      themeName: 'default',
+      login: false,
     }
   }
 
@@ -76,18 +75,7 @@ export default {
   },
   created: function() {
     this.getCurrent()
-    this.$on('editSpan',this.onEditSpan)
-    // this.$eventHub.$on('editSpan',this.onEditSpan)
-    //如果是用带user_id的链接进入，只获取resume数据，并渲染页面
-    let search = location.search
-    let regex = /user_id=([^&]+)/
-    let matches = search.match(regex)
-    if(matches){
-      let userId = matches[1]
-      this.edit = false
-      console.log(userId)
-      this.getResume(userId)
-    }
+    this.sharePage()
   },
   watch: {
     'currentUser.id': function (newvalue,oldvalue){
@@ -128,12 +116,14 @@ export default {
     onLogin(User){
       this.currentUser.id = User.id
       this.currentUser.email = User.attributes.email
+      this.login = true
     },
     onLogOut() {
         AV.User.logOut().then(() => {
           Object.assign(this.$data, initData())
           alert('logOut success')
         })
+        this.login = false
     },
     getResume(id) {
         let query = new AV.Query('User')
@@ -156,10 +146,22 @@ export default {
         this.currentUser.email = currentUser.attributes.email
         this.currentUser.id = currentUser.id
         this.getResume(this.currentUser.id)
+        this.login = true
       }
     },
     createShareLink() {
       this.share.link = location.origin + location.pathname + '?user_id=' + this.currentUser.id
+    },
+    sharePage(){
+      //如果是用带user_id的链接进入，只获取resume数据，并渲染页面
+      let search = location.search
+      let regex = /user_id=([^&]+)/
+      let matches = search.match(regex)
+      if(matches){
+        let userId = matches[1]
+        this.edit = false
+        this.getResume(userId)
+      }
     },
     print(){
       window.print()
@@ -179,13 +181,13 @@ export default {
     }
     >main{
       padding-top: 80px;
+      display: flex;
       #resumeEditor{
-        position: fixed;
-        width: 15%;
+        width: 100px;
         margin-left: 5px;
       }
       #resume{
-        margin-left: 15%;
+        flex: 1;
       }    
     }
   }
@@ -203,6 +205,6 @@ export default {
   }
   #resume{
     background: #f5f5f5;
-    max-width: 1280px;
+    max-width: 960px;
   }
 </style>

@@ -36,10 +36,10 @@
 		methods: {
 			onLogin(e) {
 				e.preventDefault()
-				console.log('xxxxxxx')
 				let {account,pwd} = this.login
 				AV.User.logIn(account, pwd).then((User) => {
 					this.$emit('login', User)
+					this.$router.push('/')
 				}, function(error) {
 					switch (error.code) {
 						case 219:

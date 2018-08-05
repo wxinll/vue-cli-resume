@@ -1,17 +1,16 @@
 <template>
 	<div id="resume">
-		{{currentUser}}
 		<section class="profile">
-			<h1 class="name"><editable-span :value="resume.name" @edit="$emit('edit-span',$event,'name')"></editable-span></h1>
+			<h1 class="name"><editable-span :disabled="!edit" :value="resume.name" @edit="$emit('edit-span',$event,'name')"></editable-span></h1>
 			<p class="description">
 				目标职位：
-				<editable-span :value="resume.jobTitle" @edit="$emit('edit-span',$event,'jobTitle')"></editable-span>
+				<editable-span :disabled="!edit" :value="resume.jobTitle" @edit="$emit('edit-span',$event,'jobTitle')"></editable-span>
 			</p>
 			<div class="selfInfo">
-				<editable-span :value="resume.gender" @edit="$emit('edit-span',$event,'gender')"></editable-span>
-				<editable-span :value="resume.age" @edit="$emit('edit-span',$event,'age')"></editable-span>
-				<editable-span :value="resume.email" @edit="$emit('edit-span',$event,'email')"></editable-span>
-				<editable-span :value="resume.phone" @edit="$emit('edit-span',$event,'phone')"></editable-span>
+				<editable-span :disabled="!edit" :value="resume.gender" @edit="$emit('edit-span',$event,'gender')"></editable-span>
+				<editable-span :disabled="!edit" :value="resume.age" @edit="$emit('edit-span',$event,'age')"></editable-span>
+				<editable-span :disabled="!edit" :value="resume.email" @edit="$emit('edit-span',$event,'email')"></editable-span>
+				<editable-span :disabled="!edit" :value="resume.phone" @edit="$emit('edit-span',$event,'phone')"></editable-span>
 			</div>
 		</section>
 		<section class="projects">
@@ -19,18 +18,18 @@
 			<ul>
 				<li class="box" v-for="(project,index) in resume.projects">
 					<h3>
-						<editable-span :value="project.name" @edit="$emit('edit-span',$event,'projects','name',index)"></editable-span>
+						<editable-span :disabled="!edit" :value="project.name" @edit="$emit('edit-span',$event,'projects','name',index)"></editable-span>
 					</h3>
 					<ul class="content">
 						<li v-for="(item,index2) in project.description">
-							<editable-span :value="item" @edit="$emit('edit-span',$event,'projects','description',index,index2)" @input-change="onInputChange"></editable-span>
-							<span class="del" v-show="!inputStatus" @click="delRow('projects',index,index2)">
+							<editable-span :disabled="!edit" :value="item" @edit="$emit('edit-span',$event,'projects','description',index,index2)"></editable-span>
+							<span class="del" v-show="edit" @click="delRow('projects',index,index2)">
 								<svg class="icon" aria-hidden="true">
 							 		<use xlink:href="#icon-minus-circle"></use>
 								</svg>
 							</span>
 						</li>
-						<li>
+						<li v-show="edit">
 							<span class="add" @click="addRow('projects',index)">
 								<svg class="icon" aria-hidden="true">
 							 		<use xlink:href="#icon-plus-circle"></use>
@@ -38,13 +37,13 @@
 							</span>
 						</li>
 					</ul>
-					<span class="del" @click="delProject(index)">
+					<span class="del" v-show="edit" @click="delProject(index)">
 						<svg class="icon" aria-hidden="true">
 						 		<use xlink:href="#icon-minus-circle"></use>
 						</svg>
 					</span>
 				</li>
-				<li class="box add" @click="addProject">
+				<li class="box add" v-show="edit" @click="addProject">
 					<div class="row">
 						<svg class="icon" aria-hidden="true">
 					 		<use xlink:href="#icon-plus-circle"></use>
@@ -59,33 +58,33 @@
 			<ul>
 				<li class="box" v-for="(skill,index) in resume.skills">
 					<h3>
-						<editable-span class="header" :value="skill.name" @edit="$emit('edit-span',$event,'skills','name',index)"></editable-span>
+						<editable-span :disabled="!edit" class="header" :value="skill.name" @edit="$emit('edit-span',$event,'skills','name',index)"></editable-span>
 					</h3>
 					<ul class="content">
 						<li v-for="(item, index2) in skill.description">
-							<editable-span :value="item" @edit="$emit('edit-span',$event,'skills','description',index,index2)" @input-change="onInputChange"></editable-span>
-							<span class="del" @click="delRow('skills',index,index2)">
+							<editable-span :disabled="!edit" :value="item" @edit="$emit('edit-span',$event,'skills','description',index,index2)"></editable-span>
+							<span class="del" v-show="edit" @click="delRow('skills',index,index2)">
 								<svg class="icon" aria-hidden="true">
 								 		<use xlink:href="#icon-minus-circle"></use>
 								</svg>						
 							</span>
 						</li>
 						<li>
-							<span class="add" @click="addRow('skills',index)">
+							<span class="add" v-show="edit" @click="addRow('skills',index)">
 								<svg class="icon" aria-hidden="true">
 							 		<use xlink:href="#icon-plus-circle"></use>
 								</svg>
 							</span>
 						</li>
 					</ul>
-					<span class="del" @click="delSkill(index)">
+					<span class="del" v-show="edit" @click="delSkill(index)">
 						<svg class="icon" aria-hidden="true">
 						 		<use xlink:href="#icon-minus-circle"></use>
 						</svg>
 					</span>
 
 				</li>
-				<li class="box add" @click="addSkill">
+				<li class="box add" v-show="edit" @click="addSkill">
 					<svg class="icon" aria-hidden="true">
 					    <use xlink:href="#icon-plus-circle"></use>
 					</svg>					
@@ -107,17 +106,13 @@ export default {
 	props: ['currentUser','edit','resume'],
 	data(){
 		return {
-			inputStatus: false
 		}
 	},
 	methods: {
-		onInputChange($event) {
-			this.inputStatus = $event
-		},
 		addSkill() {
 			let obj = {
 				name: '技能名称',
-				description: '技能描述'
+				description: ['技','能','描','述']
 			}
 			this.resume.skills.push(obj)
 		},
@@ -199,7 +194,7 @@ export default {
 		>ul{
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: space-around;
+			justify-content: space-between;
 			>li{
 				width: 47%;
 				&.add svg{
