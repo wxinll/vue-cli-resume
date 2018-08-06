@@ -1,6 +1,6 @@
 <template>
-	<aside id="resumeEditor">
-		<button class="button" @click="share">
+	<aside id="resumeEditor" class="box">
+		<button class="button primary" @click="share">
 			分享
 		</button>
 	</aside>

@@ -201,8 +201,8 @@ export default {
     }  
   }
   #resumeEditor{
-    background: #444;
     height: 60vh;
+    margin-right: 2rem;
   }
   #resume{
     background: #f5f5f5;
