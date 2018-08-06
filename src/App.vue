@@ -182,6 +182,7 @@ export default {
     >main{
       padding-top: 80px;
       display: flex;
+      justify-content: center;
       #resumeEditor{
         width: 100px;
         margin-left: 5px;

@@ -194,9 +194,10 @@ export default {
 		>ul{
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: space-between;
+			justify-content: center;
 			>li{
-				width: 47%;
+				width: 45%;
+				margin: 0 .5em .75rem;
 				&.add svg{
 					width: 2.5em;
 					height: 2.5em;
