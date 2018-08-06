@@ -1,5 +1,5 @@
 <template>
-  <span class="editableSpan editing">
+  <span :class="{active:!disabled}">
     <span v-show="!editing" @click="xxx">{{value}}</span>
     <input type="text" v-if="!disabled" v-show="editing" :value="value" @input="$emit('edit',$event.currentTarget.value)" @blur="xxx">
   </span>
@@ -11,7 +11,7 @@
     props: ['value','disabled'],
     data() {
       return{
-        editing: false
+        editing: false,
       }
     },
     methods: {
@@ -39,5 +39,8 @@
 <style scoped>
 	input{
     width: 100%;
+  }
+  .active{
+    cursor: pointer;
   }
 </style>
