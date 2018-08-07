@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div @touchmove.prevent>
 		<div class="login box" v-on:submit="onSignUp">
 			<div class="title">
 				<label>注册</label>

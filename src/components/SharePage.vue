@@ -1,5 +1,5 @@
 <template>
-	<div class="animation">
+	<div class="animation" @touchmove.prevent>
 		<header>
 			<span>分享给别人吧</span>	
 			<svg class="icon" aria-hidden="true" @click="$router.push('/')">
@@ -17,18 +17,15 @@
 		name: 'SharePage',
 		props: ['shareLink'],
 		created(){
-			this.forbid()
+			document.addEventListener('scroll',this.fn)			
 		},
 		destroyed(){
-			this.normal()
+			document.removeEventListener('scroll',this.fn)
 		},
 		methods: {
-			forbid(){
-				document.body.style.overflow = 'hidden'
+			fn(){
+				document.documentElement.scrollTop = 0
 			},
-			normal(){
-				document.body.style.overflow = 'scroll'
-			}
 		}
 	}
 </script>
