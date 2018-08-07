@@ -30,10 +30,10 @@
 	export default {
 		name: 'Login',
 		created(){
-			this.forbid()
+			document.addEventListener('scroll',this.fn)			
 		},
-		beforeDestroy(){
-			this.normal()
+		destroyed(){
+			document.removeEventListener('scroll',this.fn)
 		},
 		data() {
 			return {
@@ -44,11 +44,8 @@
 			}
 		},
 		methods: {
-			forbid(){
-				document.body.style.overflow = 'hidden'
-			},
-			normal(){
-				document.body.style.overflow = 'auto'
+			fn(){
+				document.documentElement.scrollTop = 0
 			},
 			onLogin(e) {
 				e.preventDefault()

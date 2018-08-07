@@ -15,7 +15,21 @@
 <script>
 	export default{
 		name: 'SharePage',
-		props: ['shareLink']
+		props: ['shareLink'],
+		created(){
+			this.forbid()
+		},
+		destroyed(){
+			this.normal()
+		},
+		methods: {
+			forbid(){
+				document.body.style.overflow = 'hidden'
+			},
+			normal(){
+				document.body.style.overflow = 'scroll'
+			}
+		}
 	}
 </script>
 

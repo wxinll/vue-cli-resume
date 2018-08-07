@@ -37,17 +37,14 @@
 			}
 		},
 		created(){
-			this.forbid()
+			document.addEventListener('scroll',this.fn)			
 		},
 		destroyed(){
-			this.normal()
+			document.removeEventListener('scroll',this.fn)
 		},
 		methods: {
-			forbid(){
-				document.body.style.overflow = 'hidden'
-			},
-			normal(){
-				document.body.style.overflow = 'auto'
+			fn(){
+				document.documentElement.scrollTop = 0
 			},
 			onSignUp(e) {
 				e.preventDefault()

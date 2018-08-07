@@ -165,6 +165,9 @@ export default {
 				>ul>li{
 					position: relative;	
 					padding:.35em 0;
+					span.input + span{
+						visibility: hidden;
+					}
 				}
 			}
 		}

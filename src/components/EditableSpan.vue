@@ -1,5 +1,5 @@
 <template>
-  <span :class="{active:!disabled}">
+  <span :class="{active:!disabled,input: editing}">
     <span v-show="!editing" @click="xxx">{{value}}</span>
     <input type="text" v-if="!disabled" v-show="editing" :value="value" @input="$emit('edit',$event.currentTarget.value)" @blur="xxx">
   </span>
@@ -40,7 +40,7 @@
 	input{
     width: 100%;
   }
-  .active{
+  span.active{
     cursor: pointer;
   }
 </style>
