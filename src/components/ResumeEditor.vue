@@ -1,8 +1,10 @@
 <template>
-	<aside id="resumeEditor" class="box">
-		<button class="button primary" @click="share">
-			分享
-		</button>
+	<aside id="resumeEditor">
+		<div class="fixed box">
+			<button class="button primary" @click="share">
+				分享
+			</button>
+		</div>
 	</aside>
 </template>
 
@@ -20,6 +22,11 @@
 
 <style scoped lang="scss">
 	#resumeEditor{
+		.fixed{
+			position: fixed;
+			width: 100px;
+			height: 30vh;
+		}
 		button{
 			width: 4em;
 			height: 2.25em;
