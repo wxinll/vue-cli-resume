@@ -6,12 +6,38 @@
 				目标职位：
 				<editable-span :disabled="!edit" :value="resume.jobTitle" @edit="$emit('edit-span',$event,'jobTitle')"></editable-span>
 			</p>
-			<div class="selfInfo">
-				<editable-span :disabled="!edit" :value="resume.gender" @edit="$emit('edit-span',$event,'gender')"></editable-span>
-				<editable-span :disabled="!edit" :value="resume.age" @edit="$emit('edit-span',$event,'age')"></editable-span>
-				<editable-span :disabled="!edit" :value="resume.email" @edit="$emit('edit-span',$event,'email')"></editable-span>
-				<editable-span :disabled="!edit" :value="resume.phone" @edit="$emit('edit-span',$event,'phone')"></editable-span>
-			</div>
+			<ul class="selfInfo">
+				<li>性别：<editable-span :disabled="!edit" :value="resume.gender" @edit="$emit('edit-span',$event,'gender')"></editable-span>年龄：<editable-span :disabled="!edit" :value="resume.age" @edit="$emit('edit-span',$event,'age')"></editable-span></li>
+				<li></li>
+				<li>邮箱：<editable-span :disabled="!edit" :value="resume.email" @edit="$emit('edit-span',$event,'email')"></editable-span></li>
+				<li>手机：<editable-span :disabled="!edit" :value="resume.phone" @edit="$emit('edit-span',$event,'phone')"></editable-span></li>
+			</ul>
+		</section>
+		<section class="education">	
+			<h2>教育经历</h2>
+			<ul>
+				<li class="box" v-for="(edu,index) in resume.education">
+					<h3>
+						<editable-span :disabled="!edit" :value="edu.time" @edit="$emit('edit-span',$event,'education','time',index)"></editable-span>
+					</h3>
+					<span class="left">
+						<editable-span :disabled="!edit" :value="edu.school" @edit="$emit('edit-span',$event,'education','school',index)"></editable-span>	
+					</span>
+					<span class="right">
+						<editable-span :disabled="!edit" :value="edu.major" @edit="$emit('edit-span',$event,'education','major',index)"></editable-span>	
+					</span>
+					<span class="del" v-show="edit" @click="delEdu(index)">
+						<svg class="icon" aria-hidden="true">
+						 		<use xlink:href="#icon-minus-circle"></use>
+						</svg>
+					</span>				
+				</li>
+				<li class="box add" v-show="edit" @click="addEdu">
+					<svg class="icon" aria-hidden="true">
+					    <use xlink:href="#icon-plus-circle"></use>
+					</svg>					
+				</li>
+			</ul>
 		</section>
 		<section class="projects">
 			<h2>项目Demo</h2>
@@ -20,6 +46,9 @@
 					<h3>
 						<editable-span :disabled="!edit" :value="project.name" @edit="$emit('edit-span',$event,'projects','name',index)"></editable-span>
 					</h3>
+					<h4>
+						<editable-span :disabled="!edit" :value="project.link" @edit="$emit('edit-span',$event,'projects','link',index)"></editable-span>
+					</h4>
 					<ul class="content">
 						<li v-for="(item,index2) in project.description">
 							<editable-span :disabled="!edit" :value="item" @edit="$emit('edit-span',$event,'projects','description',index,index2)"></editable-span>
@@ -109,6 +138,13 @@ export default {
 		}
 	},
 	methods: {
+		addEdu(){
+			let obj = {time:'20XX.9-20XX.6',school:'学校',major:'专业'}
+			this.resume.education.push(obj)
+		},
+		delEdu(index){
+			this.resume.education.splice(index,1)
+		},
 		addSkill() {
 			let obj = {
 				name: '技能名称',
@@ -124,7 +160,7 @@ export default {
 				name: '项目名称',
 				link: '链接',
 				keywords: '关键词',
-				description: ['111','222','333','4444'],
+				description: ['请添加描述','请添加描述','请添加描述','请添加描述'],
 			}
 			this.resume.projects.push(obj)
 		},
@@ -132,7 +168,7 @@ export default {
 			this.resume.projects.splice(index, 1)
 		},
 		addRow(name,index){
-			this.resume[name][index].description.push('1111')
+			this.resume[name][index].description.push('请添加描述')
 		},
 		delRow(name,index,index2) {
 			this.resume[name][index].description.splice(index2,1)
@@ -159,7 +195,11 @@ export default {
 			>ul>li{
 				position: relative;
 				margin-bottom: .75rem;
-				>h3{
+				&.add svg{
+					width: 2.5em;
+					height: 2.5em;
+				}
+				>h3,h4{
 					margin-bottom: 1.1rem;
 				}
 				>ul>li{
@@ -168,6 +208,26 @@ export default {
 					span.input + span{
 						visibility: hidden;
 					}
+				}
+			}
+		}
+	}
+	.education{
+		ul{
+			padding: 0 .2em;
+		}
+		li{
+			overflow: hidden;
+			span{
+				&.left{
+					float: left;
+					width: 60%;
+				}
+				&.right{
+					float: right;
+				}
+				input{
+					width: 100%;
 				}
 			}
 		}
@@ -185,26 +245,14 @@ export default {
 			text-align: center;
 		}
 	}
-	.projects{
-		>ul>li{
-			&.add svg{
-				width: 2.5em;
-				height: 2.5em;
-			}
-		}
-	}
 	.skills{
 		>ul{
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: center;
+			padding:0 .2em;
 			>li{
-				width: 45%;
+				width: 48%;
 				margin: 0 .5em .75rem;
-				&.add svg{
-					width: 2.5em;
-					height: 2.5em;
-				}	
 			}
 		}
 	}
@@ -244,7 +292,7 @@ export default {
 	    		flex-wrap: wrap;
 	    		justify-content: center;
 				>li{
-					width: 80%;
+					width: 100%;
 				}
 	    	}
 	    }

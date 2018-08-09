@@ -38,6 +38,8 @@ function initData(){
         age: '年龄：',
         email: '邮箱：',
         phone: '手机：',
+        education: [{time:'2017.9-2019.6',school:'学校',major:'专业'},
+          {time:'2013.9-2017.6',school:'学校',major:'专业'}],
         skills: [{
           name: '技能名称',
           description: ['技能描述','技能描述','技能描述']
