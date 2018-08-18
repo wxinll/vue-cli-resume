@@ -190,7 +190,7 @@ export default {
         margin-left: 5px;
       }
       #resume{
-        flex: 1;
+        width: 820px;
       }    
     }
   }

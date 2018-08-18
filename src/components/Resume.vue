@@ -186,11 +186,18 @@ export default {
     }
 	#resume{
 		color: #4a4a4a;
-		padding: 20px;
+		padding: 20px 40px;
+		background-color: #ffffff;
+		background-image: url(../assets/head.png);
+		background-repeat: no-repeat;
+		background-position: top center;
 		>section{
 			margin-bottom: 1.5rem;
 			>h2{
-				margin-bottom: 1.1rem;
+				color: #254665;
+				border-bottom: 1px solid #0b70bd;
+			    padding: 10px 0;
+    			margin: 0 10px 1.1rem;
 			}
 			>ul>li{
 				position: relative;
@@ -234,6 +241,7 @@ export default {
 	}
 	.profile{
 		font-size: 1.2em;
+		margin-top: 5rem;
 		h1{
 			font-size: 1.5em;
 		}
@@ -251,7 +259,7 @@ export default {
 			flex-wrap: wrap;
 			padding:0 .2em;
 			>li{
-				width: 48%;
+				width: 100%;
 				margin: 0 .5em .75rem;
 			}
 		}
