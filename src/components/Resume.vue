@@ -1,17 +1,26 @@
 <template>
 	<div id="resume">
 		<section class="profile">
-			<h1 class="name"><editable-span :disabled="!edit" :value="resume.name" @edit="$emit('edit-span',$event,'name')"></editable-span></h1>
-			<p class="description">
-				目标职位：
-				<editable-span :disabled="!edit" :value="resume.jobTitle" @edit="$emit('edit-span',$event,'jobTitle')"></editable-span>
-			</p>
-			<ul class="selfInfo">
-				<li>性别：<editable-span :disabled="!edit" :value="resume.gender" @edit="$emit('edit-span',$event,'gender')"></editable-span>年龄：<editable-span :disabled="!edit" :value="resume.age" @edit="$emit('edit-span',$event,'age')"></editable-span></li>
-				<li></li>
-				<li>邮箱：<editable-span :disabled="!edit" :value="resume.email" @edit="$emit('edit-span',$event,'email')"></editable-span></li>
-				<li>手机：<editable-span :disabled="!edit" :value="resume.phone" @edit="$emit('edit-span',$event,'phone')"></editable-span></li>
-			</ul>
+			<div class="toolBar">
+				<span class="add">
+					<svg class="icon add" aria-hidden="true">
+				 		<use xlink:href="#icon-plus-circle"></use>
+					</svg>
+				</span>
+			</div>
+			<div>
+				<h1 class="name"><editable-span :disabled="!edit" :value="resume.name" @edit="$emit('edit-span',$event,'name')"></editable-span></h1>
+				<p class="description">
+					目标职位：
+					<editable-span :disabled="!edit" :value="resume.jobTitle" @edit="$emit('edit-span',$event,'jobTitle')"></editable-span>
+				</p>
+				<ul class="selfInfo">
+					<li v-for="(item,index) in resume.selfInfo">
+						<editable-span data-lang="selfInfo.name" :disabled="!edit" :value="item.name" @edit="$emit('edit-span',$event,'selfInfo','name',index)" ></editable-span>
+						<editable-span data-lang="selfInfo.description" :disabled="!edit" :value="item.description" @edit="$emit('edit-span',$event,'selfInfo','desciption',index)" ></editable-span>	
+					</li>
+				</ul>
+			</div>
 		</section>
 		<section class="education">	
 			<h2>教育经历</h2>
@@ -32,11 +41,6 @@
 						</svg>
 					</span>				
 				</li>
-				<li class="box add" v-show="edit" @click="addEdu">
-					<svg class="icon" aria-hidden="true">
-					    <use xlink:href="#icon-plus-circle"></use>
-					</svg>					
-				</li>
 			</ul>
 		</section>
 		<section class="projects">
@@ -50,14 +54,7 @@
 						<editable-span :disabled="!edit" :value="project.link" @edit="$emit('edit-span',$event,'projects','link',index)"></editable-span>
 					</h4>
 					<ul class="content">
-						<li v-for="(item,index2) in project.description">
-							<editable-span :disabled="!edit" :value="item" @edit="$emit('edit-span',$event,'projects','description',index,index2)"></editable-span>
-							<span class="del" v-show="edit" @click="delRow('projects',index,index2)">
-								<svg class="icon" aria-hidden="true">
-							 		<use xlink:href="#icon-minus-circle"></use>
-								</svg>
-							</span>
-						</li>
+						<editable-span :disabled="!edit" :value="project.description" @edit="$emit('edit-span',$event,'projects','description',index)"></editable-span>
 						<li v-show="edit">
 							<span class="add" @click="addRow('projects',index)">
 								<svg class="icon" aria-hidden="true">
@@ -66,18 +63,6 @@
 							</span>
 						</li>
 					</ul>
-					<span class="del" v-show="edit" @click="delProject(index)">
-						<svg class="icon" aria-hidden="true">
-						 		<use xlink:href="#icon-minus-circle"></use>
-						</svg>
-					</span>
-				</li>
-				<li class="box add" v-show="edit" @click="addProject">
-					<div class="row">
-						<svg class="icon" aria-hidden="true">
-					 		<use xlink:href="#icon-plus-circle"></use>
-						</svg>
-					</div>
 				</li>
 			</ul>
 
@@ -90,33 +75,9 @@
 						<editable-span :disabled="!edit" class="header" :value="skill.name" @edit="$emit('edit-span',$event,'skills','name',index)"></editable-span>
 					</h3>
 					<ul class="content">
-						<li v-for="(item, index2) in skill.description">
-							<editable-span :disabled="!edit" :value="item" @edit="$emit('edit-span',$event,'skills','description',index,index2)"></editable-span>
-							<span class="del" v-show="edit" @click="delRow('skills',index,index2)">
-								<svg class="icon" aria-hidden="true">
-								 		<use xlink:href="#icon-minus-circle"></use>
-								</svg>						
-							</span>
-						</li>
-						<li>
-							<span class="add" v-show="edit" @click="addRow('skills',index)">
-								<svg class="icon" aria-hidden="true">
-							 		<use xlink:href="#icon-plus-circle"></use>
-								</svg>
-							</span>
-						</li>
+						<editable-span :disabled="!edit" :value="skill.description" @edit="$emit('edit-span',$event,'skills','description',index)"></editable-span>
 					</ul>
-					<span class="del" v-show="edit" @click="delSkill(index)">
-						<svg class="icon" aria-hidden="true">
-						 		<use xlink:href="#icon-minus-circle"></use>
-						</svg>
-					</span>
 
-				</li>
-				<li class="box add" v-show="edit" @click="addSkill">
-					<svg class="icon" aria-hidden="true">
-					    <use xlink:href="#icon-plus-circle"></use>
-					</svg>					
 				</li>
 			</ul>
 		</section>
@@ -179,10 +140,27 @@ export default {
 
 <style scoped lang="scss">
     .icon {
-       width: 1em; height: 1em;
+       width: 1em; 
+       height: 1em;
        vertical-align: -0.15em;
        fill: currentColor;
        overflow: hidden;
+    }
+    .toolBar{
+    	display: none;
+    	position: absolute;
+    	right: 2px;
+    	top: 5px;
+    	.icon{
+			width: 1.2rem;
+			height: 1.2rem;
+			vertical-align: -0.15em;
+			fill: #00c091;
+			overflow: hidden;	
+			&:hover{
+				fill:#02dca0;
+			}
+    	}
     }
 	#resume{
 		color: #4a4a4a;
@@ -192,7 +170,14 @@ export default {
 		background-repeat: no-repeat;
 		background-position: top center;
 		>section{
-			margin-bottom: 1.5rem;
+			padding: 30px 0;
+			position: relative;
+			&:hover{
+			    border: 1px dashed #00c091;
+			    .toolBar{
+			    	display: block;
+			    }
+			}
 			>h2{
 				color: #254665;
 				border-bottom: 1px solid #0b70bd;
@@ -202,6 +187,9 @@ export default {
 			>ul>li{
 				position: relative;
 				margin-bottom: .75rem;
+				&:hover{
+					background-color: rgba(0, 205, 143, 0.1);
+				}
 				&.add svg{
 					width: 2.5em;
 					height: 2.5em;
@@ -217,6 +205,46 @@ export default {
 					}
 				}
 			}
+		}
+	}
+	.profile{
+		margin-top: 5rem;
+		h1{
+			font-size: 1.5em;
+			width: 40%;
+			margin: .67em auto;
+		}
+		.description{
+			margin-bottom: 1.3em;
+			display: flex;
+			justify-content: center;
+			>div{
+				width:30%;
+				text-align: left;
+			}
+		}
+		.selfInfo{
+			font-size: 14px;
+			display: flex;
+			justify-content: space-between;
+			margin: 0 20%;	
+			&:hover{
+				background-color: rgba(0, 205, 143, 0.1);
+				border: 1px dashed #00c091;
+			}
+			>li{
+				width: 46%;
+				display: flex;
+				>div{
+					text-align: left;
+				}
+			}
+		}
+		[data-lang="selfInfo.name"]{
+			width: 35%;
+		}
+		[data-lang="selfInfo.description"]{
+			width: 65%;
 		}
 	}
 	.education{
@@ -239,20 +267,6 @@ export default {
 			}
 		}
 	}
-	.profile{
-		font-size: 1.2em;
-		margin-top: 5rem;
-		h1{
-			font-size: 1.5em;
-		}
-		h1, p.description{
-			text-align: center;
-			margin-bottom: 1.3em;
-		}
-		.selfInfo{
-			text-align: center;
-		}
-	}
 	.skills{
 		>ul{
 			display: flex;
@@ -265,12 +279,16 @@ export default {
 		}
 	}
 	.box>.del>svg.icon{
+		display: none;
 		position: absolute;
 		right: 5%;
 		top: 5%;
 		fill: red;
 		width: 1.75em;
 		height: 1.75em;
+	}
+	.box:hover>.del>svg.icon{
+		display: block;
 	}
 	.box>.content{
 			svg.icon{

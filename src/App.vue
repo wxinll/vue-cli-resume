@@ -33,33 +33,24 @@ function initData(){
       },
       resume: {
         jobTitle: '请填写职位信息',
-        name: '请填写姓名',
-        gender: '请填写性别:',
-        age: '请填写年龄：',
-        email: '请填写邮箱：',
-        phone: '请填写手机：',
+        name: '你的名字',
+        selfInfo: [{name: '描述',description: '详细信息'},{name: '描述',description: '详细信息'}],
         education: [{time:'2017.9-2019.6',school:'请添加描述',major:'请添加描述'},
           {time:'2013.9-2017.6',school:'请添加描述',major:'请添加描述'}],
         skills: [{
           name: '编辑技能名称',
-          description: ['添加描述','添加描述','添加描述']
+          description: '添加描述'
         },{
           name: '编辑技能名称',
-          description: ['添加描述','添加描述','添加描述']
-        },{
-          name: '编辑技能名称',
-          description: ['添加描述','添加描述','添加描述']
-        },{
-          name: '编辑技能名称',
-          description: ['添加描述','添加描述','添加描述']
-        },],
+          description: '添加描述'
+        }],
 
         projects: [{
           name: '编辑项目名称',
           link: '添加线上地址',
           keywords: '关键词',
-          description: ['添加描述','添加描述','添加描述'],
-        }, ],
+          description: '添加描述',
+        }],
       },
       share: {
         link: 'need to login',
@@ -92,19 +83,15 @@ export default {
     return initData()
   },
   methods: {
-    onEditSpan(value,item,name,index,index2) {
-      if(index == undefined){
+    onEditSpan(value,item,name,index) {
+      if(index == undefined){ //非数组的数据结构
         this.resume[item] = value
       }else{
         // skills name index,value
         // projects description,index,value
-        let array = this.resume[item] //skills projects
-        let result = array[index][name] // skill[name] projects
-        if(index2 != undefined){
-          result.splice(index2,1,value) //数组不能直接赋值
-        }else{
-          array[index][name] = value
-        }
+        let items = this.resume[item] //skills projects
+        let result = items[index][name] // skill[name] projects
+        items[index][name] = value
       }
     },
     onClickSave() {

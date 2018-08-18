@@ -1,8 +1,20 @@
 <template>
-  <span :class="{active:!disabled,input: editing}">
-    <span v-show="!editing" @click="xxx">{{value}}</span>
-    <input type="text" v-if="!disabled" v-show="editing" :value="value" @input="$emit('edit',$event.currentTarget.value)" @blur="xxx">
-  </span>
+  <div class="wrap">
+    <div class="editSpan"
+          :contenteditable="!disabled" :placeholder="value" 
+          @input="fn"
+          @click.stop="onClick"
+          :class="{isEdit: edit, border: onMouse}"
+          @mouseover="onMouseover"
+          @mouseleave="onMouseleave"
+          >
+        {{content}}
+    </div>
+    <svg class="icon" aria-hidden="true">
+      <use xlink:href="#icon-minus-circle"></use>
+    </svg>
+  </div>
+
 </template>
 
 <script>
@@ -12,35 +24,73 @@
     data() {
       return{
         editing: false,
+        edit: false,
+        onMouse: false,
+        content: this.value,
+        text: '',
       }
     },
+    beforeMount(){
+      document.addEventListener('click',()=>{
+        this.edit = false
+      })
+    },
     methods: {
-      xxx(e){
+      fn(e){
+        this.text = e.target.innerText
+        this.$emit('edit',this.text)
+      },
+      onClick(){
         if(!this.disabled){
-
-          this.editing = !this.editing
-
-          let el = e.currentTarget.nextElementSibling
-          if(this.editing === true){
-            setTimeout(()=>{
-              // this.$refs.editInput.focus()
-              el.focus()
-            },0)
-          }
-
-          this.$emit('input-change',this.editing)
+          this.edit = true
         }
       },
+      onMouseover(){
+        if(!this.disabled){
+          this.onMouse = true
+        }
+      },
+      onMouseleave(){
+        this.onMouse = false
+      }
     },
-
   }
 </script>
 
 <style scoped>
-	input{
-    width: 100%;
+  [contenteditable=true]:empty:before {
+    content: attr(placeholder);
+    display: block; 
   }
-  span.active{
+  [contenteditable=true].isEdit:empty:before {
+    content: '';
+    display: block; 
+  }
+  .editSpan{
+    border:1px solid #e5e5e5;
+    min-height: 20px;
+    outline: none;
+  }
+  .editSpan.border:hover{
+    border: 1px dashed;
+  }
+  .isEdit{
+    border: 1px dashed;
+  }
+  .wrap{
+    position: relative;
+  }
+  .wrap>svg.icon{
+    display: none;
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    fill: red;
+    width: 1em;
+    height: 1em;
+  }
+  .wrap:hover>svg.icon{
+    display: block;
     cursor: pointer;
   }
 </style>
