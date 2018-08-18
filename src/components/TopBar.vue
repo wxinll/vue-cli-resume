@@ -1,7 +1,10 @@
 <template>
 	<div id="topbar">
 		<div class="wrapper">
-			<span class="logo">WXin</span>
+			<span class="logo">
+				<span class="first">Resume</span>
+				<span class="second">在线简历</span>
+			</span>
 			<div class="actions" v-show="edit">
 				<button class="button primary" v-show="!login" @click="$router.push('/login')">
 					登录
@@ -12,11 +15,11 @@
 				<button class="button danger" v-show="login" @click="$emit('click-log-out')">
 					登出
 				</button>
-				<button class="button" v-show="login" @click="$emit('on-preview')">
+				<button class="button" @click="$emit('on-preview')">
 					预览	
 				</button>
 			</div>
-			<button class="button danger" v-show="login&&!edit" @click="$emit('exit-preview')"> 
+			<button class="button danger" v-show="!edit" @click="$emit('exit-preview')"> 
 				退出预览
 			</button>
 		</div>
@@ -60,6 +63,13 @@
 		.logo{
 			font-size: 24px;
 			color: #000000;
+			.first{
+				color: #36ac70;
+			}
+			.second{
+				font-weight: bold;
+				color: #34495d;
+			}
 		}
 		button{
 			width: 72px;

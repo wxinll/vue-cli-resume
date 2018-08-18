@@ -32,33 +32,33 @@ function initData(){
         email: '',
       },
       resume: {
-        jobTitle: '职位',
-        name: '姓名',
-        gender: '性别:',
-        age: '年龄：',
-        email: '邮箱：',
-        phone: '手机：',
-        education: [{time:'2017.9-2019.6',school:'学校',major:'专业'},
-          {time:'2013.9-2017.6',school:'学校',major:'专业'}],
+        jobTitle: '请填写职位信息',
+        name: '请填写姓名',
+        gender: '请填写性别:',
+        age: '请填写年龄：',
+        email: '请填写邮箱：',
+        phone: '请填写手机：',
+        education: [{time:'2017.9-2019.6',school:'请添加描述',major:'请添加描述'},
+          {time:'2013.9-2017.6',school:'请添加描述',major:'请添加描述'}],
         skills: [{
-          name: '技能名称',
-          description: ['技能描述','技能描述','技能描述']
+          name: '编辑技能名称',
+          description: ['添加描述','添加描述','添加描述']
         },{
-          name: '技能名称',
-          description: ['技能描述','技能描述','技能描述']
+          name: '编辑技能名称',
+          description: ['添加描述','添加描述','添加描述']
         },{
-          name: '技能名称',
-          description: ['技能描述','技能描述','技能描述']
+          name: '编辑技能名称',
+          description: ['添加描述','添加描述','添加描述']
         },{
-          name: '技能名称',
-          description: ['技能描述','技能描述','技能描述']
+          name: '编辑技能名称',
+          description: ['添加描述','添加描述','添加描述']
         },],
 
         projects: [{
-          name: '项目名称',
-          link: 'XXX.com',
+          name: '编辑项目名称',
+          link: '添加线上地址',
           keywords: '关键词',
-          description: ['1111','2222','3333'],
+          description: ['添加描述','添加描述','添加描述'],
         }, ],
       },
       share: {
