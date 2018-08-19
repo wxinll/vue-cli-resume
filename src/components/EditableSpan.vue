@@ -7,12 +7,11 @@
           :class="{isEdit: edit, border: onMouse}"
           @mouseover="onMouseover"
           @mouseleave="onMouseleave"
+          @focus="isLocked = true"
+          @blur="isLocked = false"
           >
         {{content}}
     </div>
-    <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-minus-circle"></use>
-    </svg>
   </div>
 
 </template>
@@ -28,8 +27,16 @@
         onMouse: false,
         content: this.value,
         text: '',
+        isLocked: false
       }
     },
+    watch: {
+      value(){
+        if(!this.isLocked){
+          return this.content = this.value
+        }
+      }
+    },  
     beforeMount(){
       document.addEventListener('click',()=>{
         this.edit = false
@@ -37,8 +44,7 @@
     },
     methods: {
       fn(e){
-        this.text = e.target.innerText
-        this.$emit('edit',this.text)
+        this.$emit('edit',e.target.innerText)
       },
       onClick(){
         if(!this.disabled){
@@ -67,7 +73,6 @@
     display: block; 
   }
   .editSpan{
-    border:1px solid #e5e5e5;
     min-height: 20px;
     outline: none;
   }
@@ -76,21 +81,5 @@
   }
   .isEdit{
     border: 1px dashed;
-  }
-  .wrap{
-    position: relative;
-  }
-  .wrap>svg.icon{
-    display: none;
-    position: absolute;
-    right: 5%;
-    top: 5%;
-    fill: red;
-    width: 1em;
-    height: 1em;
-  }
-  .wrap:hover>svg.icon{
-    display: block;
-    cursor: pointer;
   }
 </style>

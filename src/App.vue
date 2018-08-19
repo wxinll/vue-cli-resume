@@ -35,8 +35,8 @@ function initData(){
         jobTitle: '请填写职位信息',
         name: '你的名字',
         selfInfo: [{name: '描述',description: '详细信息'},{name: '描述',description: '详细信息'}],
-        education: [{time:'2017.9-2019.6',school:'请添加描述',major:'请添加描述'},
-          {time:'2013.9-2017.6',school:'请添加描述',major:'请添加描述'}],
+        education: [{time:'2017.9-2019.6',school:'请添加描述',major:'请添加描述',description: '添加描述'},
+          {time:'2013.9-2017.6',school:'请添加描述',major:'请添加描述',description: '添加描述'}],
         skills: [{
           name: '编辑技能名称',
           description: '添加描述'
@@ -170,6 +170,7 @@ export default {
     }
     >main{
       padding-top: 80px;
+      padding-bottom: 60px;
       display: flex;
       justify-content: center;
       #resumeEditor{
